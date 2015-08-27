@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Spring JSF Hibernate Ant demo project" default="package"
+	basedir=".">
+	<property name="root" value="${basedir}/.." />
+	<property name="src.web.pages" value="WebRoot" />
+	<property name="web.classes.dir" value="WEB-INF/classes" />
+	<property name="web.xml" value="${basedir}/${src.web.pages}/WEB-INF/web.xml" />
+	<property name="WEB-INF.lib" value="${src.web.pages}/WEB-INF/lib" />
+	<property name="build.out" value="build"/>
+	<property name="build.dist" value="dist"/>
+	<property name="classes.dir" value="${basedir}/${build.out}/classes" />
+	
+	<target name="package" depends="compile" description="Creates the application war file">
+		<delete file="${root}/build/dist/SpringJSFHibernateAnt.war" />
+		<war destfile="${root}/build/dist/SpringJSFHibernateAnt.war" webxml="${root}/WebRoot/WEB-INF/web.xml">
+			<classes dir="${root}/build/classes"/>
+			<webinf dir="${root}/WebRoot/WEB-INF" includes="*" excludes="${root}/WebRoot/WEB-INF/web.xml"></webinf>
+			<lib dir="${root}/lib"></lib>
+			<fileset dir="${root}/WebRoot" includes="home.xhtml, index.jsp"/>
+		</war>
+		
+	</target>
+	
+	<target name="compile" depends="init" description="Compile all java code">
+		<delete dir="${root}/build/src" />
+		<delete dir="${root}/build/libs"/>
+		<delete dir="${root}/build/classes"/>
+		
+		<mkdir dir="${root}/build/src" />
+		<mkdir dir="${root}/build/libs" />
+		<mkdir dir="${root}/build/classes" />
+		
+		<copy todir="${root}/build/libs">
+			<path refid="project.jars" />
+		</copy>
+		
+		<!-- Copy project sources itself -->
+		<copy todir="${root}/build/src">
+			<fileset dir="${root}/src">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+		
+		<javac includeantruntime="false" source="1.7" target="1.7" srcdir="${root}/build/src" 
+			destdir="${root}/build/classes" encoding="Cp1252">
+					<classpath>
+						<fileset dir="${root}/build/libs">
+							<include name="*"/>
+						</fileset>
+					</classpath>
+				</javac>
+		<!-- Copy over none Java-Files -->
+		<copy todir="${root}/build/classes">
+			<fileset dir="${root}/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	</target>
+	
+	<target name="init" depends="set.common.paths"	description="Initialize the build area">
+		<mkdir dir="${build.dist}" />
+	</target>
+	
+	<target name="set.common.paths">
+		<path id="project.jars">
+			<fileset dir="${root}/lib" includes="*.jar" />
+		</path>
+		<echo message="Created jar file list to copy in WEB-INF/lib" />
+	</target>
+	
+	<target name="clean">
+		<delete dir="${root}/build/dist"/>
+	</target>
+</project>

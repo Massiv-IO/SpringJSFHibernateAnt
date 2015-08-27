@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" lang="en">
+<h:head>
+	<meta charset="ISO-8859-1" />
+	<title>Student Form</title>
+</h:head>
+<h:body>
+	<h:form id="studentForm">
+		<h:outputText value="Student Name: "></h:outputText>
+		<h:inputText id="studentName" value="#{studentBean.studentName}"></h:inputText>
+		<br />
+		<h:outputText value="Student Age: "></h:outputText>
+		<h:inputText id="studentAge" value="#{studentBean.studentAge}"></h:inputText>
+		<br />
+		<h:outputText value="Student Course: "></h:outputText>
+		<h:inputText id="studentCourse" value="#{studentBean.studentCourse}"></h:inputText>
+		<h:commandButton value="Save Student"
+			action="#{studentBean.saveStudent}" />
+		<br />
+		<h:commandButton value="Save Students"
+			action="#{studentBean.saveStudents}" />
+		<br />
+		<h:commandButton value="Update Students"
+			action="#{studentBean.updateStudents}" />
+		<br />
+		<h:commandButton value="Show All Students"
+			action="#{studentBean.showAllStudents}" />
+		<br />
+		<h:commandButton value="Delete All Student"
+			action="#{studentBean.deleteAllStudents}" />
+	</h:form>
+</h:body>
+</html>
